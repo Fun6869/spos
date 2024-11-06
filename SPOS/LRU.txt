@@ -1,0 +1,80 @@
+import java.util.Scanner;
+public class LRU {
+    private static int getLRUPageIndex(int[] buffer, int[] reference, int currentIndex) {
+        int lruIndex = 0;
+        int leastRecentlyUsed = currentIndex;
+        for (int i = 0; i < buffer.length; i++) {
+            boolean found = false;
+      
+            for (int j = currentIndex - 1; j >= 0; j--) {
+                if (buffer[i] == reference[j]) {
+                    found = true;
+                 
+                    if (j < leastRecentlyUsed) {
+                        leastRecentlyUsed = j;
+                        lruIndex = i;
+                    }
+                    break;
+                }
+            }
+            if (!found) {
+                return i;
+            }
+        }
+        return lruIndex; 
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of frames: ");
+        int frame_len = scanner.nextInt();
+        System.out.print("Enter the number of references: ");
+        int ref_len = scanner.nextInt();
+        int[] reference = new int[ref_len];
+        System.out.println("Enter the reference string ");
+        for (int i = 0; i < ref_len; i++) {
+            reference[i] = scanner.nextInt();
+        }
+        int fault = 0, hit = 0;
+        int[] buffer = new int[frame_len];
+        int[][] matrix = new int[ref_len][frame_len];
+
+        for (int i = 0; i < frame_len; i++) {
+            buffer[i] = -1;
+        }
+
+        for (int i = 0; i < ref_len; i++) {
+            int search = -1;
+           
+            for (int j = 0; j < frame_len; j++) {
+                if (buffer[j] == reference[i]) {
+                    hit++;
+                    search = 1;
+                    break;
+                }
+            }
+         
+            if (search == -1) {
+                int replaceIndex = getLRUPageIndex(buffer, reference, i);
+                buffer[replaceIndex] = reference[i]; 
+                fault++;
+            }
+         
+            for (int j = 0; j < frame_len; j++) {
+                matrix[i][j] = buffer[j];
+            }
+        }
+        System.out.println("Page frames after each reference:");
+        for (int i = 0; i < ref_len; i++) {
+            for (int j = 0; j < frame_len; j++) {
+                if (matrix[i][j] == -1) {
+                    System.out.print("-\t"); 
+                } else {
+                    System.out.print(matrix[i][j] + "\t");
+                }
+            }
+            System.out.print("\n");
+        }       
+        System.out.println("Page fault: " + fault + "\tPage hit: " + hit);
+        scanner.close();
+    }
+}
