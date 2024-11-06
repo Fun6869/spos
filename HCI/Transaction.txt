@@ -1,0 +1,33 @@
+import tkinter as tk
+from tkinter import messagebox
+
+root = tk.Tk()
+root.title("Fund Transfer")
+
+tk.Label(root, text="Account Number:").grid(row=0, column=0, padx=10, pady=5)
+account_entry = tk.Entry(root)
+account_entry.grid(row=0, column=1)
+
+tk.Label(root, text="Amount:").grid(row=1, column=0, padx=10, pady=5)
+amount_entry = tk.Entry(root)
+amount_entry.grid(row=1, column=1)
+
+def transfer_funds():
+    account = account_entry.get()
+    amount = amount_entry.get()
+    if not account or not amount:
+        messagebox.showerror("Transaction", "Please complete all fields")
+    else:
+        try:
+            amount = float(amount)
+            if amount > 0:
+                messagebox.showinfo("Transaction", f"Successfully transferred rupees {amount} to account {account}")
+            else:
+                messagebox.showerror("Transaction", "Amount must be positive")
+        except ValueError:
+            messagebox.showerror("Transaction", "Please enter a valid amount")
+
+transfer_button = tk.Button(root, text="Transfer", command=transfer_funds)
+transfer_button.grid(row=2, columnspan=2, pady=10)
+
+root.mainloop()

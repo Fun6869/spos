@@ -1,0 +1,16 @@
+import tkinter as tk
+
+root = tk.Tk()
+root.title("Welcome Screen")
+root.geometry("300x200")  # Set window size
+
+welcome_label = tk.Label(root, text="Welcome to the App!", font=("Arial", 16, "bold"))
+welcome_label.pack(pady=20)
+
+def proceed():
+    root.destroy()
+
+proceed_button = tk.Button(root, text="Proceed", font=("Arial", 12), command=proceed)
+proceed_button.pack(pady=20)
+
+root.mainloop()

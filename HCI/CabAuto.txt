@@ -1,0 +1,29 @@
+import tkinter as tk
+from tkinter import messagebox
+
+root = tk.Tk()
+root.title("Cab/Auto Booking")
+
+tk.Label(root, text="Pick-up Location:").grid(row=0, column=0, padx=10, pady=5)
+location_entry = tk.Entry(root)
+location_entry.grid(row=0, column=1)
+
+tk.Label(root, text="Select Vehicle Type:").grid(row=1, column=0, padx=10, pady=5)
+vehicle_var = tk.StringVar()
+vehicle_options = ["Cab", "Auto"]
+vehicle_menu = tk.OptionMenu(root, vehicle_var, *vehicle_options)
+vehicle_menu.grid(row=1, column=1)
+
+def book_ride():
+    location = location_entry.get()
+    vehicle_type = vehicle_var.get()
+    if location and vehicle_type:
+        messagebox.showinfo("Booking", f"Booking confirmed for {vehicle_type} from {location}")
+    else:
+        messagebox.showerror("Booking", "Please fill in all fields.")
+
+# Book button
+book_button = tk.Button(root, text="Book Ride", command=book_ride)
+book_button.grid(row=2, columnspan=2, pady=10)
+
+root.mainloop()

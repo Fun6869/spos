@@ -1,0 +1,25 @@
+import tkinter as tk
+from tkinter import messagebox
+
+root = tk.Tk()
+root.title("Online Quiz")
+
+question = tk.Label(root, text="Who is president of USA?")
+question.grid(row=0, column=0, columnspan=2, padx=10, pady=5)
+
+selected_answer = tk.StringVar()
+
+options = ["Trump", "Kamala", "Biden", "Obama"]
+for idx, option in enumerate(options):
+    tk.Radiobutton(root, text=option, variable=selected_answer, value=option).grid(row=idx + 1, column=0, sticky="w")
+
+def submit():
+    if selected_answer.get() == "Trump":
+        messagebox.showinfo("Result", "Correct!")
+    else:
+        messagebox.showerror("Result", "Incorrect! The correct answer is Trump.")
+
+submit_button = tk.Button(root, text="Submit", command=submit)
+submit_button.grid(row=len(options) + 1, columnspan=2, pady=10)
+
+root.mainloop()
